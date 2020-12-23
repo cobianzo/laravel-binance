@@ -4,13 +4,13 @@
     data-orderids='{{ implode('|',$trade['all_orderIds']) }}' >
 
     <div class='card-header row no-gutters p-1'>
-        <p class='col-3 mb-0 pb-0 small text-mute'>#{{$tradeId}}</p>
+        <p class='col-3 mb-0 pb-0 small text-mute'>#{{$showSymbol? $trade['symbol'] : $tradeId}}</p>
 
         <div class='col-2 badge'>
                 $<span>{{ round($trade['benefitUSDT'],2) }}</span>
         </div>
 
-        <div class='col-2 badge badge-{{ $trade['benefitUSDT'] > 0? 'success' : 'danger' }}'>
+        <div class='col-2 badge badge-{{ $trade['benefitUSDT'] > 0? 'success' : 'danger ' }}'>
             {{ $trade['benefitUSDT'] > 0? '+' : '' }}
             {{ round(100*$trade['benefitUSDT']/$trade['amountUSDT'],2) }}
             %

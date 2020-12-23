@@ -20,11 +20,14 @@ class MyBinanceController extends Controller
 
 
     // VIEWS
-    public function load_partial() {
+    
+    // this is called with ajax
+    public function load_partial() {        
         if (empty($_REQUEST['template'])) {
             return "error. template name required";
         }
-        return view('partial-'.$_REQUEST['template'], $_REQUEST); // in _REQUEST we find other params that the partial can grab
+        return view('partial-load-load-template-ajax', $_REQUEST);
+        // return view('partial-'.$_REQUEST['template'], $_REQUEST); // in _REQUEST we find other params that the partial can grab
     }
 
     // create a route /test for this for testing.

@@ -5,15 +5,17 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use App\Http\Controllers\MyBinanceController;
+use App\Http\Controllers\UserController;
 
 class BinanceTrades extends Component
 {
 
     // passed as parametes in component
     public $symbol;
-    public $current_price; // the price at the time of this component being rendered.
+    public $currentPrice; // the price at the time of this component being rendered.
 
 
+    
     public $trades    = [];
 
     public $all_orders    = [];
@@ -28,57 +30,55 @@ class BinanceTrades extends Component
      *
      * @return void
      */
-    public function __construct($symbol = null, $current_price = null)
+    public function __construct($symbol = null, $currentPrice = 0)
     {
+        // INIT PROPERTIES. If this component is loaded 
+        // from js -> partial-load-template-ajax.blade.php, and here
+        // we take the value from REQUEST
+        $this->symbol       = $symbol??         (!empty($_REQUEST['symbol'])? $_REQUEST['symbol'] : null);
+        $this->currentPrice = $currentPrice??   (!empty($_REQUEST['currentPrice'])? $_REQUEST['currentPrice'] : 0);
         
+        $orders_set = $this->getAllOrdersForSymbol($this->symbol);
+        if (!empty($orders_set))
+            $this->trades = $this->groupOrdersInTrade($orders_set['buy_orders'], $orders_set['open_orders'], $orders_set['sell_orders']);
+        
+    }
+
+    public static function getAllOrdersForSymbol(string $symbol = '') {
+
+        if (empty($symbol)) return [];
         // API call
-        if (!$this->api)
-            $this->api   = MyBinanceController::getApi();
-        if (!$this->api) {
-            return false;
-        }
-
-        if (empty($symbol))
-            $symbol = $_REQUEST['symbol'];
-        $this->symbol = $symbol;
-
-        if (empty($current_price))
-            $current_price = $_REQUEST['current_price']?? false;
-        $this->current_price = $current_price;
-
-
-
+        
+        $api   = MyBinanceController::getApi();
+        
         // orders(string $symbol, int $limit = 500, int $fromOrderId = -1, array $params = []) {
-        $all_orders_unsorted = $this->api->orders($this->symbol, 500, 0, []);
-    
-        $trades = [];
-
+        $all_orders_unsorted = $api->orders($symbol, 500, 0, []);
+        if (!empty($all_orders_unsorted['code'])) // when returns an error.
+            return false;
+        $all_orders = [];
+        $buy_orders = [];
+        $sell_orders = [];
+        $open_orders = [];
+        if (is_array($all_orders_unsorted) && count($all_orders_unsorted))
         for ( $i = (count($all_orders_unsorted) - 1 ); $i >= 0; $i--) {
             $order = $all_orders_unsorted[$i];
             if ( !in_array($order['status'], ['CANCELED', 'EXPIRED']) ) {
-                $this->all_orders[] = $order;
+                $all_orders[] = $order;
                 if ($order['side'] === 'BUY') {
-                    $this->buy_orders[] = $order; 
+                    $buy_orders[] = $order; 
                 } else { // SELL
                     if ($order['status'] === 'FILLED') {
-                        $this->sell_orders[ ] = $order;
+                        $sell_orders[ ] = $order;
                     } else {
-                        $this->open_orders[] = $order;
+                        $open_orders[] = $order;
                     } 
                 }
             }
         }
-        
-        $this->trades = $this->groupOrdersInTrade($this->buy_orders, $this->open_orders, $this->sell_orders);
-        // if ($this->symbol === 'BTCUSDT')
-           // dd($this->trades);
-
-        // $this->open_orders = $this->api->orders($this->symbol, 500, 0, []);
-        // $this->history = $this->api->recentTrades($this->symbol);
-        
-        // $this->all_orders = array_merge($this->all_orders, $this->history);
-
-       //  $this->all_orders = array_reverse($this->all_orders);
+        return ['buy_orders' => $buy_orders,
+                'open_orders' => $open_orders,
+                'sell_orders' => $sell_orders,
+                'all_orders' => $all_orders, ];
     }
 
 
@@ -90,7 +90,7 @@ class BinanceTrades extends Component
      *                       ],
      *          ]
      */
-    public function groupOrdersInTrade($buy_orders, $open_orders, $sell_orders) {
+    public static function groupOrdersInTrade($buy_orders, $open_orders, $sell_orders) {
 
         
         $trades = [];
@@ -219,8 +219,29 @@ class BinanceTrades extends Component
         return $trades;
     }
 
+    public static function justArray() {
+        return [ '100', '200'];
+    }
 
-    
+    public static function getAllTrades() {
+        $fav_coins = UserController::get_favourite_coins('array');
+        
+        $all_all_trades = [];
+        foreach ($fav_coins as $coin) 
+            if ($coin !== 'USDT') {            
+                $all_orders = self::getAllOrdersForSymbol(MyBinanceController::getSymbol($coin));
+                if (!empty($all_orders)) {
+                    $all_trades = self::groupOrdersInTrade($all_orders['buy_orders'], $all_orders['open_orders'], $all_orders['sell_orders']);
+                    $all_all_trades = array_merge($all_all_trades, $all_trades);
+                }
+        }
+        usort($all_all_trades, function($tr1, $tr2) {
+            if ($tr1['last_update_trade'] == $tr2['last_update_trade']) return 0;
+            return ($tr1['last_update_trade'] < $tr2['last_update_trade']) ? -1 : 1;
+        });
+        return $all_all_trades;
+    }
+
 
     /**
      * Get the view / contents that represent the component.

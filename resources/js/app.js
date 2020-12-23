@@ -63,42 +63,37 @@ window.binanceMethods = {
 
 window.UIMethods = {
     reloadTemplate: function(templateName, args = {}) { // ie. binance-balance
-        console.log('reloading' + templateName, args);
+        // console.log('reloading' + templateName, args);
         const container = document.querySelector("[data-templatename='"+templateName+"']");
         container.classList.add('loading');
         // call the template to laravel, via get, and passing the params template and others if needed
-        axios.get(templateName + '?template='+ templateName + "&" + qs.stringify(args))
+        axios.get('load-partial-ajax?template='+ templateName + "&" + qs.stringify(args))
                     .then(pageHtml => {
                         // console.log('the return is',pageHtml.data);
                         container.innerHTML = pageHtml.data;
                         container.classList.remove('loading');
-
-                        // after template is loaded. For binance-balance
-                        if (templateName === 'binance-balance') {
-                            const symbol = localStorage.getItem('current-symbol');
-                            if (symbol) {
-                                document.querySelector('.coin-'+symbol.toLowerCase())
-                                                                    .classList.add('active');
-                            }
-                        }
         });
 
     }
 }
 
-window.tradesInterval = setInterval( () => {
-    const symbol        = document.querySelector('#symbol-data').textContent;
-    const current_price = document.querySelector('#current-price').textContent;
-    window.UIMethods.reloadTemplate('binance-trades', { symbol:symbol, current_price:current_price } );
-}, 6000);
-
 Vue.component('price-and-amount', require('./components/PriceAndAmount.vue').default);
 
+
 document.addEventListener('DOMContentLoaded', function() {
-    
+    // when loading the page, initializr to the last selected symbol
     let currentSymbol = localStorage.getItem('current-symbol') || 'BTCUSDT';
     window.binanceMethods.selectSymbol(currentSymbol); // this inits the values for price-and-amount vuejs component
-})
+
+    if (document.querySelector('[data-templatename="binance-trades"]')) {
+        window.tradesInterval = setInterval( () => {
+            // const symbol        = document.querySelector('#symbol-data').textContent;
+            // const current_price = document.querySelector('#current-price').textContent;
+            // window.UIMethods.reloadTemplate('binance-trades', { symbol:symbol, current_price:current_price } );
+        }, 6000);
+    }
+    
+});
 
 
 

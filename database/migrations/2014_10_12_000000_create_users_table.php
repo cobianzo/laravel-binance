@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
+            $table->longText('fav_coins')->nullable();
             $table->string('b_key');
             $table->string('b_private');
         });

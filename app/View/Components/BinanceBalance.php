@@ -3,13 +3,15 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-use \App\Http\Controllers as C;
+use \App\Http\Controllers\MyBinanceController;
 
 /**
  * Left column: shows current balance, and a list of all coins with some balance.
  */
 class BinanceBalance extends Component
 {
+    // params
+    public $activeCoin = null;
 
     public $balances = null;                // API response for ticker balances for all coins.
     public $balance_base_available = null;  // USDT available.
@@ -17,7 +19,7 @@ class BinanceBalance extends Component
     public $balance_total  = null;          // USDT in total
     public $exchangeBTCUSDT = null;
     public $coins_and_balances = [];
-    public $more_coins = [ 'BTC', 'COTI', 'EUR', 'PERL', 'AXS', 'TFUEL', 'EGLD', 'INJ', 'ALPHA', 'CHZ', 'LTC',
+    public static $more_coins = [ 'BTC', 'COTI', 'EUR', 'PERL', 'AXS', 'TFUEL', 'EGLD', 'INJ', 'ALPHA', 'CHZ', 'LTC',
     'KSM', 'OCEAN', 'DOGE', 'WING' ];       // Currencies that we want to display.
 
     const MIN_USDT_VALUE = 0.1;             // min value to show the coin.
@@ -29,24 +31,24 @@ class BinanceBalance extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($activeCoin = null)
     {
-        
-        
-        
+        // INIT PROPERTIES. If this component is loaded 
+        // from js -> partial-load-template-ajax.blade.php, and here
+        // we take the value from REQUEST
+        $this->activeCoin = $activeCoin??  ( !empty($_REQUEST['activeCoin'])? $_REQUEST['activeCoin'] : null );
+
         // API call
-        if (!$this->api)
-            $this->api          = C\MyBinanceController::getApi();
-        if (!$this->api) {
-            return false;
-        }
+        if (!$this->api)        $this->api = MyBinanceController::getApi();
+        if (!$this->api)        return false;
+        
         $ticker             = $this->api->prices();
         
         $this->balances = $this->api->balances($ticker); // the API list of prices in BTC value for all coins.
         
         // needed vars
-        $base_coin              = C\MyBinanceController::get_base();
-        $this->exchangeBTCUSDT  = $ticker[ C\MyBinanceController::getSymbol('BTC') ];
+        $base_coin              = MyBinanceController::get_base();
+        $this->exchangeBTCUSDT  = $ticker[ MyBinanceController::getSymbol('BTC') ];
 
 
         // init propierties
@@ -56,11 +58,13 @@ class BinanceBalance extends Component
         
 
         // set up $this->coins_and_balances with values to display in view.
+        $fav_coins = [];
         foreach ($this->balances as $coin => $balance) {            
             $valueUSDT = $balance['btcValue'] * $this->exchangeBTCUSDT;
             if ( $valueUSDT >= self::MIN_USDT_VALUE || 
-                    in_array($coin, $this->more_coins) ) 
+                    in_array($coin, self::$more_coins) ) 
                 {
+                    $fav_coins[] = $coin;
                     // adding this coin to the list of shown coins.
                     $this->coins_and_balances[$coin] = $balance;
                     $this->coins_and_balances[$coin]['valueUSDT'] = $valueUSDT;
@@ -68,11 +72,16 @@ class BinanceBalance extends Component
                 }
         }
 
+        // we save the shown coins for this user. It might be useful.
+        \DB::table('users')
+            ->where('id', \Auth::user()->id)
+            ->update(['fav_coins' => serialize($fav_coins)]);
+
     }
 
     // get total of a coin, passing parameters.
     public static function getTotal($available, $in_order, $decimals = 0) {
-        return C\MyBinanceController::getTotal($available,$in_order, $decimals);
+        return MyBinanceController::getTotal($available,$in_order, $decimals);
     }
 
     // Total of USDT,available + onOrder
@@ -90,7 +99,7 @@ class BinanceBalance extends Component
     public function render()
     {
         return view('components.binance-balance', ([
-            'base_coin'             => C\MyBinanceController::get_base(),
+            'base_coin'             => MyBinanceController::get_base(),
         ]));
     }
 }

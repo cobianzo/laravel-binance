@@ -52,6 +52,9 @@
 
                         </div>
                         
+                        <p>Favourite coins</p>
+                        <p class='small text-mute mb-5'>{{ $fav_coins }}</p>
+
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-btn fa-sign-in"></i>Update
                         </button>

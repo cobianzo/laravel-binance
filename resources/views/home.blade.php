@@ -12,7 +12,7 @@
         <div class='template-container col-md-5' 
              data-templatename='binance-trades'>
             
-             <x-binance-trades symbol="ETHUSDT" current_price=""/>
+             <x-binance-trades symbol="" current_price=""/>
              
         </div>
 
@@ -52,6 +52,26 @@
             </div>
         </div>
 
+        {{-- This should go in a different page. It might 
+        take a long time of processing --}}
+        
+        <div class="card-body text-info bg-info p-1" id="all trades">
+            {{-- {{ App\View\Components\BinanceTrades::getAllTrades() }} --}}
+            
+            
+            {{-- THIS WORKS but obvoipusly is very consuming
+                @foreach (App\View\Components\BinanceTrades::getAllTrades() as $tradeId => $trade )
+                <x-single-trade :trade="$trade" :currentPrice='false' :tradeId="$tradeId" :showSymbol="true"/>
+            @endforeach --}}
+            
+            
+            {{-- @inject('BT', 'App\View\Components\BinanceTrades')
+            @foreach ( $BT::getAllTrades() as $tradeId => $trade)
+            <x-single-trade :trade="$trade" :currentPrice='false' :tradeId="$id" />
+            @endforeach
+            Monthly Revenue: {{ $cc::getCosa() }}. --}}
+            
+        </div>
 
     </div>
 </div>

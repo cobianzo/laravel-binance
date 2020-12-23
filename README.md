@@ -55,11 +55,10 @@ RELOAD A PARTIAL COMPONENT in PHP (with axios ajax):
 ===
 - The partial Laravel component accepts params, <x-binance-trade symbol="ETCUSDT"/>  
 - This is complex, I couldnt find a better way to do it.    
-1) js call: window.UIMethods.reloadTemplate('binance-trades', { symbol:symbol } )  
-2) app.js: calls with axios ajax the the endpoint called '/binance-trades'  
-3) web.php: routing of endpoint '/binance-trades' to MyBinanceController, fn load_template()  
-4) MyBinanceController::load_template uses the params passed via REQUEST. REQUEST['template'] is compulsory. These params were set in app.js `loadTemplate`  
-5) View partial-binance-trade.blade.php just calls the component BinanceTrades.php  
-6) BinanceTrades.php::__construct() grabs the params from REQUEST, returns the view  
-7) views/components/binance-trades.php , shows all the info.  
-8) app.js might have a callback to fix things when the html is rendered.
+1) js call: `window.UIMethods.reloadTemplate('binance-trades', { symbol:symbol } )`  
+2) `app.js`: calls with axios ajax the the endpoint called 
+    '/load-partial-ajax?template=binance-trades&symbol=TFUELUSDT'  
+3) `web.php`: routing of endpoint '/load-partial-ajax' to the generic view    `partial-load-template-ajax.blade`, pasing the $_GET as params to be used in the view.
+4) `partial-load-template-ajax.blade` calls the right component depending on the template. In this case: <x-binance-trades/>
+6) `BinanceTrades.php::__construct()` grabs the params from REQUEST, returns the view  
+7) `views/components/binance-trades.blade.php` , shows all the info.  

@@ -55,5 +55,9 @@ Route::post('test', [App\Http\Controllers\MyBinanceController::class, 'test']);
 //     return $html;
 // });
 // Reload templates as partials with ajax
-Route::get('binance-balance', [App\Http\Controllers\MyBinanceController::class, 'load_partial']);
-Route::get('binance-trades', [App\Http\Controllers\MyBinanceController::class, 'load_partial']);
+// Route::get('binance-balance', [App\Http\Controllers\MyBinanceController::class, 'load_partial']);
+Route::get('load-partial-ajax', function() {
+        // mandatory $_REQUEST['template'] with the mane of the component
+        // ie. $_REQUEST['template']=binance-trades for  <x-binance-trades>
+        return View::make('partial-load-template-ajax', $_REQUEST); 
+});

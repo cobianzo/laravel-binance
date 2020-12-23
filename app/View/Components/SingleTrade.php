@@ -10,6 +10,7 @@ class SingleTrade extends Component
     public $trade;
     public $tradeId;
     public $current_price;
+    public $showSymbol;
 
 
     public $is_winning = false;
@@ -19,11 +20,12 @@ class SingleTrade extends Component
      *
      * @return void
      */
-    public function __construct(Array $trade, float $currentPrice = 0, $tradeId = 0)
+    public function __construct(Array $trade, float $currentPrice = 0, $tradeId = 0, $showSymbol = false)
     {
         $this->trade            = $trade;
         $this->tradeId          = $tradeId;
         $this->current_price    = $currentPrice;
+        $this->showSymbol       = $showSymbol;
 
         $this->is_winning = ($trade['benefitUSDT'] > 3);
         $this->is_losing  = ($trade['benefitUSDT'] < -3);

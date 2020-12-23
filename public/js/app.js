@@ -1924,7 +1924,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! qs */ "./node_modules/qs/lib/index.js");
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _TradesList_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TradesList.vue */ "./resources/js/components/TradesList.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2074,7 +2073,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+ //import TradesList from './TradesList.vue';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'PriceAndAmount',
@@ -2362,6 +2374,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     percent_stop_loss: function percent_stop_loss(newV, oldV) {
       this.updateExitPrices(0, 0, newV);
+    },
+    amountUSDT: function amountUSDT(newV, oldV) {
+      console.log('changed Amount', this.amount_or_risk);
+
+      if (this.amount_or_risk === 'amount') {
+        console.log('changed updating risk');
+        this.updateAmountRisk(newV, 0);
+      }
     } // amount: function(newV, oldV) {
     //     console.log('updte amount USDT ' + oldV + ' to ' + newV);
     //     this.updateAmountRisk(newV, 0);
@@ -2371,8 +2391,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     // }
 
   },
-  components: {
-    'trades-list': _TradesList_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  components: {// 'trades-list' : TradesList
   }
 });
 /**
@@ -2381,43 +2400,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  * - on create component, load Binance filters stored in a json locally, named ETHUSDT.json
  * 
  */
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TradesList.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TradesList.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'TradesList',
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  },
-  props: {
-    symbol: null
-  }
-});
 
 /***/ }),
 
@@ -39644,517 +39626,547 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "row", attrs: { id: "price-and-amount" } },
-    [
-      _c("div", { staticClass: "col-6 mb-2" }, [
-        _c("div", { staticClass: "card card-vuejs" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _c("div", { staticClass: "row no-gutters" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "col-3 text-center text-danger text-mute",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return (function() {
-                        return (_vm.price = _vm.bid)
-                      })($event)
-                    }
+  return _c("div", { staticClass: "row", attrs: { id: "price-and-amount" } }, [
+    _c("div", { staticClass: "col-6 mb-2" }, [
+      _c("div", { staticClass: "card card-vuejs" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _c("div", { staticClass: "row no-gutters" }, [
+            _c(
+              "a",
+              {
+                staticClass: "col-3 text-center text-danger text-mute",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return (function() {
+                      return (_vm.price = _vm.bid)
+                    })($event)
                   }
-                },
-                [
-                  _vm._v("\n                        bid "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("small", [_vm._v(_vm._s(parseFloat(this.bid)))])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "col-6 text-center h4",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return (function() {
-                        return (_vm.price = _vm.current_price)
-                      })($event)
-                    }
+                }
+              },
+              [
+                _vm._v("\n                        bid "),
+                _c("br"),
+                _vm._v(" "),
+                _c("small", [_vm._v(_vm._s(parseFloat(this.bid)))])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "col-6 text-center h4",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return (function() {
+                      return (_vm.price = _vm.current_price)
+                    })($event)
                   }
-                },
-                [
-                  _c(
-                    "span",
-                    { staticClass: "h5", attrs: { id: "symbol-data" } },
-                    [_vm._v(_vm._s(this.symbolData))]
-                  ),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { attrs: { id: "current-price" } }, [
-                    _vm._v(_vm._s(parseFloat(this.current_price)))
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "col-3 text-center text-black",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return (function() {
-                        return (_vm.price = _vm.ask)
-                      })($event)
-                    }
+                }
+              },
+              [
+                _c(
+                  "span",
+                  { staticClass: "h5", attrs: { id: "symbol-data" } },
+                  [_vm._v(_vm._s(this.symbolData))]
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { attrs: { id: "current-price" } }, [
+                  _vm._v(_vm._s(parseFloat(this.current_price)))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "col-3 text-center text-black",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return (function() {
+                      return (_vm.price = _vm.ask)
+                    })($event)
                   }
-                },
-                [
-                  _vm._v("\n                        ask "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("small", [_vm._v(_vm._s(parseFloat(this.ask.toString())))])
-                ]
-              )
-            ])
+                }
+              },
+              [
+                _vm._v("\n                        ask "),
+                _c("br"),
+                _vm._v(" "),
+                _c("small", [_vm._v(_vm._s(parseFloat(this.ask.toString())))])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "input-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.price,
+                  expression: "price"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                name: "price",
+                id: "price",
+                min: "0",
+                placeholder: "price",
+                required: "",
+                step: this.step ? this.step : "0.01"
+              },
+              domProps: { value: _vm.price },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.price = $event.target.value
+                }
+              }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "input-group" }, [
+          _c("div", { staticClass: "input-group" }, [
+            _c("label", { attrs: { for: "amount text-center" } }, [
+              _vm._v(
+                "\n                        Amount\n                        "
+              ),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.price,
-                    expression: "price"
+                    value: _vm.amount_or_risk,
+                    expression: "amount_or_risk"
                   }
                 ],
-                staticClass: "form-control",
                 attrs: {
-                  type: "number",
-                  name: "price",
-                  id: "price",
-                  min: "0",
-                  placeholder: "price",
-                  required: "",
-                  step: this.step ? this.step : "0.01"
+                  type: "radio",
+                  name: "amount-or-risk",
+                  id: "amount",
+                  value: "amount"
                 },
-                domProps: { value: _vm.price },
+                domProps: { checked: _vm._q(_vm.amount_or_risk, "amount") },
                 on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.price = $event.target.value
+                  change: function($event) {
+                    _vm.amount_or_risk = "amount"
                   }
                 }
               })
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("label", { attrs: { for: "amount text-center" } }, [
-                _vm._v(
-                  "\n                        Amount\n                        "
-                ),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.amount_or_risk,
-                      expression: "amount_or_risk"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    name: "amount-or-risk",
-                    id: "amount",
-                    value: "amount"
-                  },
-                  domProps: { checked: _vm._q(_vm.amount_or_risk, "amount") },
-                  on: {
-                    change: function($event) {
-                      _vm.amount_or_risk = "amount"
-                    }
+            _c("label", { attrs: { for: "risk text-right" } }, [
+              _vm._v(
+                "\n                        Risk\n                        "
+              ),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.amount_or_risk,
+                    expression: "amount_or_risk"
                   }
-                })
-              ]),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "risk text-right" } }, [
-                _vm._v(
-                  "\n                        Risk\n                        "
-                ),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.amount_or_risk,
-                      expression: "amount_or_risk"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    name: "amount-or-risk",
-                    id: "risk",
-                    value: "risk"
-                  },
-                  domProps: { checked: _vm._q(_vm.amount_or_risk, "risk") },
-                  on: {
-                    change: function($event) {
-                      _vm.amount_or_risk = "risk"
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              this.amount_or_risk !== "risk"
-                ? _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.amountUSDT,
-                        expression: "amountUSDT"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "number",
-                      name: "amount",
-                      id: "amount",
-                      min: "0",
-                      placeholder: "amount",
-                      required: "",
-                      step: "1"
-                    },
-                    domProps: { value: _vm.amountUSDT },
-                    on: {
-                      input: [
-                        function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.amountUSDT = $event.target.value
-                        },
-                        function(e) {
-                          return this$1.updateAmountRisk(this$1.amountUSDT, 0)
-                        }
-                      ]
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              this.amount_or_risk === "risk"
-                ? _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.risk,
-                        expression: "risk"
-                      }
-                    ],
-                    staticClass: "form-control text-danger",
-                    attrs: {
-                      type: "number",
-                      name: "risk",
-                      id: "risk",
-                      min: "0",
-                      placeholder: "risk",
-                      required: "",
-                      step: "1"
-                    },
-                    domProps: { value: _vm.risk },
-                    on: {
-                      input: [
-                        function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.risk = $event.target.value
-                        },
-                        function(e) {
-                          return this$1.updateAmountRisk(0, this$1.risk)
-                        }
-                      ]
-                    }
-                  })
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "text-center mt-3" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary m-auto",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.placeBuyOrder($event)
-                    }
-                  }
+                ],
+                attrs: {
+                  type: "radio",
+                  name: "amount-or-risk",
+                  id: "risk",
+                  value: "risk"
                 },
-                [
-                  _vm._v("\n                        Buy "),
-                  _c("b", [_vm._v(_vm._s(this.amountUSDT))]),
-                  _vm._v(" "),
-                  _c("small", [_vm._v("USDT")]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v("at "),
-                  _c("b", { staticClass: "text-mute" }, [
-                    _vm._v(_vm._s(parseFloat(this.price)))
-                  ])
-                ]
-              )
+                domProps: { checked: _vm._q(_vm.amount_or_risk, "risk") },
+                on: {
+                  change: function($event) {
+                    _vm.amount_or_risk = "risk"
+                  }
+                }
+              })
             ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            this.amount_or_risk !== "risk"
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.amountUSDT,
+                      expression: "amountUSDT"
+                    }
+                  ],
+                  staticClass: "form-control w-75",
+                  attrs: {
+                    type: "number",
+                    name: "amount",
+                    id: "amount",
+                    min: "0",
+                    placeholder: "amount",
+                    required: "",
+                    step: "1"
+                  },
+                  domProps: { value: _vm.amountUSDT },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.amountUSDT = $event.target.value
+                    }
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            this.amount_or_risk !== "risk"
+              ? _c("span", { staticClass: "w-25" }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(this.risk) +
+                      "\n                    "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            this.amount_or_risk === "risk"
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.risk,
+                      expression: "risk"
+                    }
+                  ],
+                  staticClass: "form-control text-danger",
+                  attrs: {
+                    type: "number",
+                    name: "risk",
+                    id: "risk",
+                    min: "0",
+                    placeholder: "risk",
+                    required: "",
+                    step: "1"
+                  },
+                  domProps: { value: _vm.risk },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.risk = $event.target.value
+                      },
+                      function(e) {
+                        return this$1.updateAmountRisk(0, this$1.risk)
+                      }
+                    ]
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "ul",
+              {
+                staticClass: "d-flex w-100 list-unstyled",
+                attrs: { id: "amount-preset" }
+              },
+              _vm._l([100, 250, 500, 1000], function(num, index) {
+                return _c("li", { key: index, staticClass: "col" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.amountUSDT = num
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(num) +
+                          "\n                            "
+                      )
+                    ]
+                  )
+                ])
+              }),
+              0
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "text-center mt-3" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary m-auto",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.placeBuyOrder($event)
+                  }
+                }
+              },
+              [
+                _vm._v("\n                        Buy "),
+                _c("b", [_vm._v(_vm._s(this.amountUSDT))]),
+                _vm._v(" "),
+                _c("small", [_vm._v("USDT")]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v("at "),
+                _c("b", { staticClass: "text-mute" }, [
+                  _vm._v(_vm._s(parseFloat(this.price)))
+                ])
+              ]
+            )
           ])
         ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-6 mb-2" }, [
+      _c("div", { staticClass: "card-header mb-3" }, [
+        _c("b", [_vm._v(_vm._s(this.symbolData))]),
+        _vm._v(" "),
+        this.symbol_filters
+          ? _c(
+              "span",
+              {
+                class:
+                  "text-" +
+                  (this.symbol_filters.status !== "TRADING"
+                    ? "danger"
+                    : "success")
+              },
+              [_vm._v(_vm._s(this.symbol_filters.status))]
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-6 mb-2" }, [
-        _c("div", { staticClass: "card-header mb-3" }, [
-          _c("b", [_vm._v(_vm._s(this.symbolData))]),
-          _vm._v(" "),
-          this.symbol_filters
-            ? _c(
-                "span",
-                {
-                  class:
-                    "text-" +
-                    (this.symbol_filters.status !== "TRADING"
-                      ? "danger"
-                      : "success")
-                },
-                [_vm._v(_vm._s(this.symbol_filters.status))]
+      _c("span", { staticClass: "d-block" }, [
+        _vm._v("\n            % benefit \n            "),
+        _c("small", { staticClass: "text-success text-mute" }, [
+          _vm._v(
+            "﹩" +
+              _vm._s(
+                (
+                  this.amountUSDT *
+                  (this.price_t1 / this.current_price - 1)
+                ).toFixed()
               )
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "d-block" }, [
-          _vm._v("\n            % benefit \n            "),
-          _c("small", { staticClass: "text-success text-mute" }, [
-            _vm._v(
-              "﹩" +
-                _vm._s(
-                  (
-                    this.amountUSDT *
-                    (this.price_t1 / this.current_price - 1)
-                  ).toFixed()
-                )
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("label", { staticClass: "xl", attrs: { for: "percent_t1" } }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.percent_t1,
-                expression: "percent_t1"
-              }
-            ],
-            staticClass: "form-control w-25 float-left",
-            attrs: {
-              type: "number",
-              name: "percent_t1",
-              id: "percent_t1",
-              min: "0",
-              placeholder: "percent profit",
-              required: "",
-              step: "0.1"
-            },
-            domProps: { value: _vm.percent_t1 },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.percent_t1 = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm._m(0),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.price_t1,
-                expression: "price_t1"
-              }
-            ],
-            staticClass: "form-control w-50",
-            attrs: {
-              type: "number",
-              name: "price_t1",
-              id: "price_t1",
-              min: "0",
-              placeholder: "take profit price",
-              required: "",
-              step: this.step ? this.step : "0.01"
-            },
-            domProps: { value: _vm.price_t1 },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.price_t1 = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "text-danger d-block" }, [
-          _vm._v("\n            % stop loss\n            "),
-          _c("small", { staticClass: "text-danger text-mute" }, [
-            _vm._v(
-              "﹩" +
-                _vm._s(
-                  (
-                    this.amountUSDT *
-                    (this.price_stop_loss / this.current_price - 1)
-                  ).toFixed()
-                )
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "percent_t1 input-group" } }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.percent_stop_loss,
-                expression: "percent_stop_loss"
-              }
-            ],
-            staticClass: "form-control text-danger w-25 float-left",
-            attrs: {
-              type: "number",
-              name: "percent_stop_loss",
-              id: "percent_stop_loss",
-              min: "0",
-              placeholder: "percent stop loss",
-              required: "",
-              step: "0.1"
-            },
-            domProps: { value: _vm.percent_stop_loss },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.percent_stop_loss = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.price_stop_loss,
-                expression: "price_stop_loss"
-              }
-            ],
-            staticClass: "form-control text-danger w-50",
-            attrs: {
-              type: "number",
-              name: "price_stop_loss",
-              id: "price_stop_loss",
-              min: "0",
-              placeholder: "stop loss price",
-              required: "",
-              step: this.step ? this.step : "0.01"
-            },
-            domProps: { value: _vm.price_stop_loss },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.price_stop_loss = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "text-center w-100 mt-3" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary m-auto",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.placeOCOOrder($event)
-                }
-              }
-            },
-            [
-              _c("small", [
-                _vm._v("winning "),
-                _c("b", [
-                  _vm._v(
-                    "﹩" +
-                      _vm._s(
-                        (
-                          this.amountUSDT *
-                          (this.price_t1 / this.current_price - 1)
-                        ).toFixed()
-                      )
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v("\n                Place OCO Order\n                "),
-              _c("br"),
-              _vm._v(" "),
-              _c("small", [
-                _vm._v("losing "),
-                _c("b", [
-                  _vm._v(
-                    "﹩" +
-                      _vm._s(
-                        (
-                          this.amountUSDT *
-                          (this.price_stop_loss / this.current_price - 1)
-                        ).toFixed()
-                      )
-                  )
-                ])
-              ])
-            ]
           )
         ])
       ]),
       _vm._v(" "),
-      _c("trades-list", { attrs: { symbol: this.symbolData } })
-    ],
-    1
-  )
+      _c("label", { staticClass: "xl", attrs: { for: "percent_t1" } }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.percent_t1,
+              expression: "percent_t1"
+            }
+          ],
+          staticClass: "form-control w-25 float-left",
+          attrs: {
+            type: "number",
+            name: "percent_t1",
+            id: "percent_t1",
+            min: "0",
+            placeholder: "percent profit",
+            required: "",
+            step: "0.1"
+          },
+          domProps: { value: _vm.percent_t1 },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.percent_t1 = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.price_t1,
+              expression: "price_t1"
+            }
+          ],
+          staticClass: "form-control w-50",
+          attrs: {
+            type: "number",
+            name: "price_t1",
+            id: "price_t1",
+            min: "0",
+            placeholder: "take profit price",
+            required: "",
+            step: this.step ? this.step : "0.01"
+          },
+          domProps: { value: _vm.price_t1 },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.price_t1 = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("span", { staticClass: "text-danger d-block" }, [
+        _vm._v("\n            % stop loss\n            "),
+        _c("small", { staticClass: "text-danger text-mute" }, [
+          _vm._v(
+            "﹩" +
+              _vm._s(
+                (
+                  this.amountUSDT *
+                  (this.price_stop_loss / this.current_price - 1)
+                ).toFixed()
+              )
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("label", { attrs: { for: "percent_t1 input-group" } }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.percent_stop_loss,
+              expression: "percent_stop_loss"
+            }
+          ],
+          staticClass: "form-control text-danger w-25 float-left",
+          attrs: {
+            type: "number",
+            name: "percent_stop_loss",
+            id: "percent_stop_loss",
+            min: "0",
+            placeholder: "percent stop loss",
+            required: "",
+            step: "0.1"
+          },
+          domProps: { value: _vm.percent_stop_loss },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.percent_stop_loss = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.price_stop_loss,
+              expression: "price_stop_loss"
+            }
+          ],
+          staticClass: "form-control text-danger w-50",
+          attrs: {
+            type: "number",
+            name: "price_stop_loss",
+            id: "price_stop_loss",
+            min: "0",
+            placeholder: "stop loss price",
+            required: "",
+            step: this.step ? this.step : "0.01"
+          },
+          domProps: { value: _vm.price_stop_loss },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.price_stop_loss = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center w-100 mt-3" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary m-auto",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.placeOCOOrder($event)
+              }
+            }
+          },
+          [
+            _c("small", [
+              _vm._v("winning "),
+              _c("b", [
+                _vm._v(
+                  "﹩" +
+                    _vm._s(
+                      (
+                        this.amountUSDT *
+                        (this.price_t1 / this.current_price - 1)
+                      ).toFixed()
+                    )
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v("\n                Place OCO Order\n                "),
+            _c("br"),
+            _vm._v(" "),
+            _c("small", [
+              _vm._v("losing "),
+              _c("b", [
+                _vm._v(
+                  "﹩" +
+                    _vm._s(
+                      (
+                        this.amountUSDT *
+                        (this.price_stop_loss / this.current_price - 1)
+                      ).toFixed()
+                    )
+                )
+              ])
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -40174,46 +40186,6 @@ var staticRenderFns = [
     ])
   }
 ]
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TradesList.vue?vue&type=template&id=7de67ef8&":
-/*!*************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TradesList.vue?vue&type=template&id=7de67ef8& ***!
-  \*************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Orders and Trades for " + _vm._s(this.symbol) + " ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm._v(
-              "\n                    I'm an example component.\n                "
-            )
-          ])
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = []
 render._withStripped = true
 
 
@@ -52461,37 +52433,29 @@ window.UIMethods = {
   reloadTemplate: function reloadTemplate(templateName) {
     var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     // ie. binance-balance
-    console.log('reloading' + templateName, args);
+    // console.log('reloading' + templateName, args);
     var container = document.querySelector("[data-templatename='" + templateName + "']");
     container.classList.add('loading'); // call the template to laravel, via get, and passing the params template and others if needed
 
-    axios.get(templateName + '?template=' + templateName + "&" + qs__WEBPACK_IMPORTED_MODULE_0___default.a.stringify(args)).then(function (pageHtml) {
+    axios.get('load-partial-ajax?template=' + templateName + "&" + qs__WEBPACK_IMPORTED_MODULE_0___default.a.stringify(args)).then(function (pageHtml) {
       // console.log('the return is',pageHtml.data);
       container.innerHTML = pageHtml.data;
-      container.classList.remove('loading'); // after template is loaded. For binance-balance
-
-      if (templateName === 'binance-balance') {
-        var symbol = localStorage.getItem('current-symbol');
-
-        if (symbol) {
-          document.querySelector('.coin-' + symbol.toLowerCase()).classList.add('active');
-        }
-      }
+      container.classList.remove('loading');
     });
   }
 };
-window.tradesInterval = setInterval(function () {
-  var symbol = document.querySelector('#symbol-data').textContent;
-  var current_price = document.querySelector('#current-price').textContent;
-  window.UIMethods.reloadTemplate('binance-trades', {
-    symbol: symbol,
-    current_price: current_price
-  });
-}, 6000);
 Vue.component('price-and-amount', __webpack_require__(/*! ./components/PriceAndAmount.vue */ "./resources/js/components/PriceAndAmount.vue")["default"]);
 document.addEventListener('DOMContentLoaded', function () {
+  // when loading the page, initializr to the last selected symbol
   var currentSymbol = localStorage.getItem('current-symbol') || 'BTCUSDT';
   window.binanceMethods.selectSymbol(currentSymbol); // this inits the values for price-and-amount vuejs component
+
+  if (document.querySelector('[data-templatename="binance-trades"]')) {
+    window.tradesInterval = setInterval(function () {// const symbol        = document.querySelector('#symbol-data').textContent;
+      // const current_price = document.querySelector('#current-price').textContent;
+      // window.UIMethods.reloadTemplate('binance-trades', { symbol:symbol, current_price:current_price } );
+    }, 6000);
+  }
 }); // window.updateVueTemplate = function(compName, vueFile) {
 //     window.Vue.component(compName, require('./components/'+vueFile+'.vue').default);
 // }
@@ -52626,75 +52590,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PriceAndAmount_vue_vue_type_template_id_c7cabc1e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PriceAndAmount_vue_vue_type_template_id_c7cabc1e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/TradesList.vue":
-/*!************************************************!*\
-  !*** ./resources/js/components/TradesList.vue ***!
-  \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _TradesList_vue_vue_type_template_id_7de67ef8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TradesList.vue?vue&type=template&id=7de67ef8& */ "./resources/js/components/TradesList.vue?vue&type=template&id=7de67ef8&");
-/* harmony import */ var _TradesList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TradesList.vue?vue&type=script&lang=js& */ "./resources/js/components/TradesList.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _TradesList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _TradesList_vue_vue_type_template_id_7de67ef8___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _TradesList_vue_vue_type_template_id_7de67ef8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/TradesList.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/TradesList.vue?vue&type=script&lang=js&":
-/*!*************************************************************************!*\
-  !*** ./resources/js/components/TradesList.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TradesList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TradesList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TradesList.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TradesList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/TradesList.vue?vue&type=template&id=7de67ef8&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/TradesList.vue?vue&type=template&id=7de67ef8& ***!
-  \*******************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TradesList_vue_vue_type_template_id_7de67ef8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TradesList.vue?vue&type=template&id=7de67ef8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TradesList.vue?vue&type=template&id=7de67ef8&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TradesList_vue_vue_type_template_id_7de67ef8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TradesList_vue_vue_type_template_id_7de67ef8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

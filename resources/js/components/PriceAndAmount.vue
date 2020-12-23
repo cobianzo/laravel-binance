@@ -47,11 +47,14 @@
 
                     <div class="input-group">
                         <input  v-if="( this.amount_or_risk !== 'risk' )"
-                                type="number" class="form-control" name="amount" id="amount" 
+                                type="number" class="form-control w-75" name="amount" id="amount" 
                                 min='0' placeholder="amount" required 
                                 step='1'
-                                v-on:input="(e) => this.updateAmountRisk(this.amountUSDT,0)"
                                 v-model="amountUSDT" />
+                        <span v-if="( this.amount_or_risk !== 'risk' )"
+                            class='w-25'>
+                                {{ this.risk }}
+                        </span>
                         
                         <input  v-if="( this.amount_or_risk === 'risk' )"
                                 type="number" class="form-control text-danger" name="risk" id="risk" 
@@ -59,6 +62,16 @@
                                 step='1'
                                 v-on:input="(e) => this.updateAmountRisk(0,this.risk)"
                                 v-model="risk" />
+                        
+                        <ul id="amount-preset" class='d-flex w-100 list-unstyled'>
+                            <li v-for="(num, index) in [100,250,500,1000]" v-bind:key="index"
+                                class="col">
+                                <a href="#" v-on:click.prevent="amountUSDT = num;">
+                                    {{ num }}
+                                </a>
+                            </li>
+                        </ul>
+                        
                     </div>
 
                     <div class="text-center mt-3">
@@ -136,14 +149,14 @@
                 </button>
             </div>
         </div>
-        <trades-list :symbol="this.symbolData" />
+        <!-- <trades-list :symbol="this.symbolData" /> -->
     </div>
     
 </template>
 
 <script>
     import qs from 'qs';
-    import TradesList from './TradesList.vue';
+    //import TradesList from './TradesList.vue';
     export default {
         name: 'PriceAndAmount',
         props: {
@@ -368,6 +381,13 @@
             percent_stop_loss: function(newV, oldV) { 
                 this.updateExitPrices(0, 0, newV); 
             },
+            amountUSDT: function(newV, oldV) {
+                console.log('changed Amount', this.amount_or_risk);
+                if (this.amount_or_risk === 'amount') {
+                    console.log('changed updating risk');
+                    this.updateAmountRisk(newV, 0);
+                }
+            }
             // amount: function(newV, oldV) {
             //     console.log('updte amount USDT ' + oldV + ' to ' + newV);
             //     this.updateAmountRisk(newV, 0);
@@ -377,7 +397,7 @@
             // }
         },
         components: {
-            'trades-list' : TradesList
+            // 'trades-list' : TradesList
         }
     }
 

@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         $user->password = \Hash::make('WeL0veTil0v?');
         $user->email = 'cobianzo@yahoo.es';
         $user->name = 'Alvaro';
-        $user->b_key = '';
-        $user->b_private = '';
+        $user->b_key = \env('BIN_KEY');
+        $user->b_private = \env('BIN_SECRET');
         $user->save();
         // same as
         // DB::table('users')->insert(['name'=>'MyUsername','email'=>'thisis@myemail.com','password'=>Hash::make('123456')])
