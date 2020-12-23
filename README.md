@@ -1,21 +1,35 @@
 TODO:
 
-hay functiones en MyBinance que tiene q ver mas con routing y asi.
+Hay funciones genericas.
 Deberia meterlo en HomeController mas bien. O en un Controller parent de todo, no se si hay.
+
+GIT project
+---
+note that main branch is `main`, not `master`, so `git pull/push origin main`  
 
 ASSETS: scss, css and js  
 ---  
+[...]
 
 MOST USED FILES:  
 ===
 
 frontend:
-- resources/app.js  (npm watch will convert it into /public/app.js)  
-- *.vue
-- web.php : for routing and endpoint of ajax calls.
-- MyBinanceController : 
-- home.blade.php : Main view containing all of the rest. Only allowed if logged in.
+---
+- `resources/app.js`  (npm watch will convert it into `/public/app.js`)  
+- `*.vue`  The main component to show the buy orders.
+-- It communicates with Laravel through axios in order to execute the actions.  
+-- Laravel communicates with the vue component through app.js, using window.* variables and methods, and using `$emit`, in order to execute a fn inside vue to update the state of current symbol.  
+-- `localStorage`, to save the status of current symbol and load it in case we reload page.
 
+backend:
+---
+- `web.php` : for routing and endpoint of ajax calls.  
+- `MyBinanceController` :  all important generic functions related to communic with binance  
+- home.blade.php : Main view containing all of the rest. Only allowed if logged in.  
+-- top row with balance and coins: `BinanceBalance.php` + `binance-balance.blade.php`  
+-- left column with trades: `BinanceTrades.php` + `binance-trades.blade.php` 
+--- single trade component: `SingleTrade.php`
 
 DEVELOPMENT
 --- 
@@ -30,7 +44,7 @@ php -S localhost:9001
 HOW I CREATED THE APP 
 ---  
 Valid for all Laravel 7 apps.
-'''
+```
 composer global require "laravel/installer=~1.1"  
 composer create-project laravel/laravel lar-binance --prefer-dist  
 - Create DB with mysql command  
@@ -43,7 +57,7 @@ chmod -R o+w storage
 php artisan migrate  
 php artisan db:seed  
 npm install && npm run dev  
-'''  
+```
 - HOW I USE TWITTER BOOSTRAP:  
 Edit app.scss  
 ```
