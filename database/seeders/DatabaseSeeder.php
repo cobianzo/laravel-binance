@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         
         $user = new \App\Models\User();
-        $user->password = \Hash::make('WeL0veTil0v?');
+        $user->password = \Hash::make('cobianzo');
         $user->email = 'cobianzo@yahoo.es';
         $user->name = 'Alvaro';
         $user->b_key = \env('BIN_KEY');
